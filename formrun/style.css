@@ -1,0 +1,288 @@
+@charset "UTF-8";
+
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap");
+
+/* ===== 色の設定（ここを変えると全体の色が変わります） ===== */
+:root {
+  --main: #2f6fed;        /* メインカラー（ボタン・フォーカス時の枠） */
+  --main-dark: #1f56c4;   /* ボタンにマウスを乗せたときの色 */
+  --text: #2b2f36;        /* 文字色 */
+  --sub: #6b7280;         /* 説明文の色 */
+  --line: #d9dde3;        /* 入力欄の枠線 */
+  --bg: #f3f6fb;          /* 背景色 */
+  --error: #e5484d;       /* エラー文の色 */
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 56px 16px 80px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Noto Sans JP", "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+  line-height: 1.7;
+}
+
+/* ===== 見出し部分 ===== */
+.contact-header {
+  max-width: 640px;
+  margin: 0 auto 28px;
+  text-align: center;
+}
+.contact-header h1 {
+  margin: 4px 0 8px;
+  font-size: 30px;
+  letter-spacing: 0.05em;
+}
+.contact-header p {
+  margin: 0;
+  color: var(--sub);
+  font-size: 14px;
+}
+.contact-header .en {
+  color: var(--main);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+}
+
+/* ===== フォーム全体（白いカード） ===== */
+form.formrun {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 44px 40px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(31, 56, 100, 0.08);
+}
+
+/* 項目ごとの間隔 */
+form.formrun > div {
+  margin-bottom: 28px;
+}
+
+/* 項目名 */
+form.formrun label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+/* ===== 入力欄 ===== */
+form.formrun input[type="text"],
+form.formrun textarea {
+  width: 100%;
+  padding: 14px 16px;
+  font-family: inherit;
+  font-size: 16px;
+  color: var(--text);
+  background: #fafbfc;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+form.formrun textarea {
+  min-height: 180px;
+  resize: vertical;
+}
+/* 入力中（クリックしたとき） */
+form.formrun input[type="text"]:focus,
+form.formrun textarea:focus {
+  outline: none;
+  background: #fff;
+  border-color: var(--main);
+  box-shadow: 0 0 0 4px rgba(47, 111, 237, 0.15);
+}
+
+/* ===== 同意チェックボックス ===== */
+form.formrun div:has(> input[type="checkbox"]) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  background: #f7f9fc;
+  border-radius: 10px;
+}
+form.formrun div:has(> input[type="checkbox"]) label {
+  margin-bottom: 0;
+}
+form.formrun input[type="checkbox"] {
+  order: -1;              /* チェックボックスを文字の左側に表示 */
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  accent-color: var(--main);
+  cursor: pointer;
+}
+form.formrun div:has(> input[type="checkbox"]) [data-formrun-show-if-error] {
+  flex-basis: 100%;
+  margin-top: 0;
+}
+
+/* ===== エラー文 ===== */
+form.formrun [data-formrun-show-if-error] {
+  margin-top: 6px;
+  color: var(--error);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* ===== 送信ボタン ===== */
+form.formrun button[type="submit"] {
+  display: block;
+  width: 100%;
+  max-width: 320px;
+  margin: 8px auto 0;
+  padding: 16px;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #fff;
+  background: var(--main);
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+form.formrun button[type="submit"]:hover {
+  background: var(--main-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(47, 111, 237, 0.3);
+}
+/* 未入力があるとき・送信中 */
+form.formrun button[type="submit"]:disabled {
+  background: #b8c2d1;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* ===== スマホ表示 ===== */
+@media (max-width: 600px) {
+  body { padding-top: 32px; }
+  .contact-header h1 { font-size: 24px; }
+  form.formrun { padding: 28px 20px; }
+}
+
+/* =====================================================
+   JS（script.js）で付ける動き
+   ===================================================== */
+
+/* ページを開いたときにふわっと表示 */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.contact-header { animation: fadeUp 0.6s ease both; }
+.progress, .progress-text { animation: fadeUp 0.6s ease 0.1s both; }
+form.formrun { animation: fadeUp 0.6s ease 0.2s both; }
+
+/* 進み具合バー */
+.progress {
+  max-width: 640px;
+  height: 8px;
+  margin: 0 auto 8px;
+  background: #e3e8f0;
+  border-radius: 999px;
+  overflow: hidden;
+}
+.progress-bar {
+  width: 0;
+  height: 100%;
+  background: var(--main);
+  border-radius: 999px;
+  transition: width 0.4s ease, background 0.4s ease;
+}
+.progress.is-complete .progress-bar { background: #2e9e4f; }
+.progress-text {
+  max-width: 640px;
+  margin: 0 auto 16px;
+  color: var(--sub);
+  font-size: 13px;
+  text-align: right;
+}
+
+/* 入力できた項目に ✓ マーク */
+form.formrun > div > label::after {
+  content: "✓";
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  margin-left: 8px;
+  color: #fff;
+  font-size: 12px;
+  background: #2e9e4f;
+  border-radius: 50%;
+  vertical-align: middle;
+  transform: scale(0);
+  transition: transform 0.25s cubic-bezier(0.3, 1.6, 0.6, 1);
+}
+form.formrun > div.is-ok > label::after { transform: scale(1); }
+
+/* メールアドレスの形式が違うときは赤枠 */
+form.formrun > div.is-ng input[type="text"] {
+  border-color: var(--error);
+  box-shadow: 0 0 0 4px rgba(229, 72, 77, 0.12);
+}
+
+/* 文字数カウンター */
+.char-count {
+  margin: 6px 0 0;
+  color: var(--sub);
+  font-size: 12px;
+  text-align: right;
+}
+
+/* 必須項目がそろったら送信ボタンが光る */
+@keyframes pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(47, 111, 237, 0.45); }
+  70%  { box-shadow: 0 0 0 14px rgba(47, 111, 237, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(47, 111, 237, 0); }
+}
+form.formrun.is-ready button[type="submit"]:not(:disabled) {
+  animation: pulse 1.6s ease-out infinite;
+}
+
+/* ===== フェード ===== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* 項目が上から1つずつ順番にふわっと表示（script.js で順番を付けています） */
+form.formrun.js-reveal > div:not(._formrun_gotcha),
+form.formrun.js-reveal > button {
+  opacity: 0;
+  translate: 0 14px;
+  transition: opacity 0.6s ease, translate 0.6s ease, transform 0.2s, background 0.2s, box-shadow 0.2s;
+}
+form.formrun.js-reveal > div.is-shown:not(._formrun_gotcha),
+form.formrun.js-reveal > button.is-shown {
+  opacity: 1;
+  translate: 0 0;
+}
+
+/* エラー文は表示されるたびにフェードイン */
+form.formrun [data-formrun-show-if-error] {
+  animation: fadeIn 0.3s ease;
+}
+
+/* 進み具合のメッセージが変わるたびにフェード */
+.progress-text.is-changed {
+  animation: fadeIn 0.35s ease;
+}
+.progress.is-complete + .progress-text {
+  color: #2e9e4f;
+  font-weight: 700;
+}
+
+/* 動きを減らす設定の人には動きを止める */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
